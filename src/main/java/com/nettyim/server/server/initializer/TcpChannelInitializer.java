@@ -1,6 +1,7 @@
 package com.nettyim.server.server.initializer;
 
 import io.netty.channel.ChannelInitializer;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,8 +25,8 @@ public class TcpChannelInitializer extends ChannelInitializer {
 
     @Override
     protected void initChannel(io.netty.channel.Channel ch) throws Exception {
-        ch.pipeline().addLast(tcpProtocolCodec);
+        ch.pipeline().addLast("LengthFieldBasedFrameDecoder", new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 0, Integer.SIZE/8, -(Integer.SIZE/8), 0));
+        ch.pipeline().addLast("TcpProtocolCodec", tcpProtocolCodec);
         ch.pipeline().addLast(tcpChatServerHandler);
     }
-
 }

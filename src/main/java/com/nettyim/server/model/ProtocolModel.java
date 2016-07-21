@@ -9,11 +9,11 @@ package com.nettyim.server.model;
 public class ProtocolModel {
 
     // HEADER长度为16
-    public static final short HEADER_LENGTH = Integer.SIZE/8 + Short.SIZE/8 + Short.SIZE/8 + Integer.SIZE/8 + Integer.SIZE/8;
+    public static final short PROTOCOL_HEADER_LENGTH = Integer.SIZE/8 + Short.SIZE/8 + Integer.SIZE/8 + Integer.SIZE/8;
+    public static final short PROTOCOL_HEADER_LEN = Short.SIZE/8 + Integer.SIZE/8 + Integer.SIZE/8;
     public static final short PROTOCOL_VERSION = 1;
-    
+   
     private int packetLen;
-    private short headerLen;
     private short version;
     private int operation;
     private int seqId;
@@ -25,14 +25,6 @@ public class ProtocolModel {
 
     public void setPacketLen(int packetLen) {
         this.packetLen = packetLen;
-    }
-
-    public short getHeaderLen() {
-        return headerLen;
-    }
-
-    public void setHeaderLen(short headerLen) {
-        this.headerLen = headerLen;
     }
 
     public short getVersion() {
@@ -73,7 +65,6 @@ public class ProtocolModel {
 
         StringBuffer sb = new StringBuffer();
         sb.append("Protocol{packetLen:").append(this.packetLen).append(", ");
-        sb.append("headerLen:").append(this.headerLen).append(", ");
         sb.append("version:").append(this.version).append(", ");
         sb.append("operation:").append(this.operation).append(", ");
         sb.append("seqId:").append(this.seqId).append(", ");

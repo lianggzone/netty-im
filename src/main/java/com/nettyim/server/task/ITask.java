@@ -1,7 +1,5 @@
 package com.nettyim.server.task;
 
-import io.netty.channel.ChannelHandlerContext;
-
 import com.nettyim.server.model.ProtocolModel;
 
 /**

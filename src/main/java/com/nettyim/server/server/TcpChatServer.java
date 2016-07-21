@@ -2,6 +2,7 @@ package com.nettyim.server.server;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -46,6 +47,16 @@ public class TcpChatServer {
             ServerBootstrap bootstrap = new ServerBootstrap();
             bootstrap.group(bossGroup, workGroup);
             bootstrap.channel(NioServerSocketChannel.class);
+            
+            // 设置参数
+            // serverSocketChannel的设置，连接缓存池的大小
+            // bootstrap.option(ChannelOption.SO_BACKLOG, 100000);
+            // socketChannel的设置,维持连接的活跃，清楚死链接
+            bootstrap.option(ChannelOption.SO_KEEPALIVE, true);
+            // socketChannel的设置,关闭延迟发送
+            bootstrap.option(ChannelOption.TCP_NODELAY, true);
+            
+            // 处理业务
             bootstrap.handler(new LoggingHandler(LogLevel.INFO));
             // 绑定I/O事件的处理类
             bootstrap.childHandler(tcpChannelInitializer);

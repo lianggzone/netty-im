@@ -8,7 +8,7 @@ package com.nettyim.server.common.constrants;
  */
 public class CommonConstants {
 
-    public static final int PORT = 9099;
+    public static final int PORT = 6099;
     
     // 队列名称
     public static final String QUEUE_TASK_NAME = "tcp_queue";

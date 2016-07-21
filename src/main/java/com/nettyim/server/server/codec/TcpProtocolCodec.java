@@ -30,15 +30,13 @@ public class TcpProtocolCodec extends MessageToMessageCodec<ByteBuf, ProtocolMod
     protected void encode(ChannelHandlerContext channelHandlerContext, ProtocolModel protocolModel, List<Object> list) throws Exception {
         ByteBuf byteBuf = ByteBufAllocator.DEFAULT.buffer();
         if (protocolModel.getBody() != null) {
-            byteBuf.writeInt(ProtocolModel.HEADER_LENGTH + protocolModel.getBody().length);
-            byteBuf.writeShort(ProtocolModel.HEADER_LENGTH);
+            byteBuf.writeInt(ProtocolModel.PROTOCOL_HEADER_LENGTH + protocolModel.getBody().length);
             byteBuf.writeShort(ProtocolModel.PROTOCOL_VERSION);
             byteBuf.writeInt(protocolModel.getOperation());
             byteBuf.writeInt(protocolModel.getSeqId());
             byteBuf.writeBytes(protocolModel.getBody());
         } else {
-            byteBuf.writeInt(ProtocolModel.HEADER_LENGTH);
-            byteBuf.writeShort(ProtocolModel.HEADER_LENGTH);
+            byteBuf.writeInt(ProtocolModel.PROTOCOL_HEADER_LENGTH);
             byteBuf.writeShort(ProtocolModel.PROTOCOL_VERSION);
             byteBuf.writeInt(protocolModel.getOperation());
             byteBuf.writeInt(protocolModel.getSeqId());
@@ -52,12 +50,11 @@ public class TcpProtocolCodec extends MessageToMessageCodec<ByteBuf, ProtocolMod
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
         ProtocolModel protocolModel = new ProtocolModel();
         protocolModel.setPacketLen(byteBuf.readInt());
-        protocolModel.setHeaderLen(byteBuf.readShort());
         protocolModel.setVersion(byteBuf.readShort());
         protocolModel.setOperation(byteBuf.readInt());
         protocolModel.setSeqId(byteBuf.readInt());
-        if (protocolModel.getPacketLen() > protocolModel.getHeaderLen()) {
-            byte[] bytes = new byte[protocolModel.getPacketLen() - protocolModel.getHeaderLen()];
+        if (protocolModel.getPacketLen() > ProtocolModel.PROTOCOL_HEADER_LENGTH) {
+            byte[] bytes = new byte[protocolModel.getPacketLen() - ProtocolModel.PROTOCOL_HEADER_LENGTH];
             byteBuf.readBytes(bytes);
             protocolModel.setBody(bytes);
         }

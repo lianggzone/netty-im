@@ -30,9 +30,7 @@ import com.nettyim.server.service.AuthEventService;
 public class TcpChatServerHandler extends SimpleChannelInboundHandler<ProtocolModel> {
 
     private static final Logger logger = LoggerFactory.getLogger(TcpChatServerHandler.class);
-
-    
-    
+  
     @Autowired
     private MsgListRedisDao msgListRedisDao;
     
@@ -40,31 +38,35 @@ public class TcpChatServerHandler extends SimpleChannelInboundHandler<ProtocolMo
     private AuthEventService authEventService;
     
     @Override
-    protected void messageReceived(ChannelHandlerContext ctx, ProtocolModel protocolModel) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, ProtocolModel protocolModel) throws Exception {
         logger.info("服务端接收到客户端消息:{}", protocolModel);
         if(EventEnum.AUTH.getValue() == protocolModel.getOperation()){
             AuthTokenModel authTokenModel = JsonUtils.fromJson(protocolModel.getBody(), AuthTokenModel.class);
 
             String key = authTokenModel.getUserId() + "_" + authTokenModel.getOsType();
-           
-            
+                       
             authEventService.setAuthToken(ctx.channel(), authTokenModel);
             ClientSession.sessionMap.put(key, ctx);
         }
         // 服务器消息处理
         msgListRedisDao.setMsg(CommonConstants.QUEUE_TASK_NAME, JsonUtils.toJson(protocolModel));
+        
+        //ctx.pipeline().writeAndFlush(protocolModel);
+        //ctx.pipeline().close();
     }
 
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
         logger.info(" 服务端监听到客户端退出 ，进行业务处理");
         AuthTokenModel authTokenModel = authEventService.getAuthToken(ctx.channel());
-        String key = authTokenModel.getUserId() + "_" + authTokenModel.getOsType();
-        if(StringUtils.isNoneBlank(key)){
-            ClientSession.sessionMap.remove(key);
+        if(authTokenModel != null){
+            String key = authTokenModel.getUserId() + "_" + authTokenModel.getOsType();
+            if(StringUtils.isNoneBlank(key)){
+                ClientSession.sessionMap.remove(key);
+            }
+            authEventService.clearAuthToken(ctx.channel());
+            logger.info(" 服务端监听到客户端退出 ，业务处理成功 ");
         }
-        authEventService.clearAuthToken(ctx.channel());
-        logger.info(" 服务端监听到客户端退出 ，业务处理成功 ");
     }
 
     @Override
