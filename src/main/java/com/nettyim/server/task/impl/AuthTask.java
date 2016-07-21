@@ -1,7 +1,5 @@
 package com.nettyim.server.task.impl;
 
-import io.netty.channel.ChannelHandlerContext;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,6 +18,7 @@ public class AuthTask implements ITask {
 
     @Override
     public void excute(ProtocolModel protocolModel) throws Exception {
+        
        logger.info("task[auth] msg:{}", protocolModel);
     }
 }

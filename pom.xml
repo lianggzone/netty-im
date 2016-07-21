@@ -9,7 +9,7 @@
 
  <groupId>com.lianggzone</groupId>
  <artifactId>netty-im</artifactId>
- <version>1.0.0-SNAPSHOT</version>
+ <version>0.1</version>
  <packaging>jar</packaging>
 
  <properties>
@@ -19,11 +19,16 @@
 
  <dependencies>
  	<!-- netty -->
-    <dependency>
+    <!-- <dependency>
 		<groupId>io.netty</groupId>
 		<artifactId>netty-all</artifactId>
 		<version>5.0.0.Alpha2</version>
-    </dependency>
+    </dependency> -->
+    <dependency>
+	    <groupId>io.netty</groupId>
+	    <artifactId>netty-all</artifactId>
+	    <version>4.1.3.Final</version>
+	</dependency>
     <dependency>
         <groupId>com.google.protobuf</groupId>
         <artifactId>protobuf-java</artifactId>
@@ -98,6 +103,10 @@
  
   <build>
     <plugins>
+    	<plugin>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-maven-plugin</artifactId>
+	    </plugin>
       	<plugin>
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-compiler-plugin</artifactId>
@@ -108,12 +117,60 @@
 				<encoding>UTF-8</encoding>
 			</configuration>
 		</plugin>
-
-        <plugin>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-maven-plugin</artifactId>
+		<plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-resources-plugin</artifactId>
+            <configuration>
+                <encoding>UTF-8</encoding>
+                <useDefaultDelimiters>false</useDefaultDelimiters>
+                <escapeString>\</escapeString>
+                <delimiters>
+                    <delimiter>${*}</delimiter>
+                </delimiters>
+            </configuration>
         </plugin>
-    </plugins>
+    </plugins>  
+    <filters>
+		<filter>src/main/filters/filter-${env}.properties</filter>
+	</filters>
+	<resources>
+		<resource>
+			<directory>src/main/filters/resources/${env}</directory>
+		</resource>
+		<resource>
+			<directory>src/main/resources</directory>
+			<filtering>true</filtering>
+		</resource>
+	</resources>
   </build>
+  <profiles>
+		<profile>
+			<id>development</id>
+			<properties>
+				<env>development</env>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>test</id>
+			<properties>
+				<env>test</env>
+			</properties>
+		</profile>
+		<profile>
+			<id>preproduction</id>
+			<properties>
+				<env>preproduction</env>
+			</properties>
+		</profile>
+		<profile>
+			<id>product</id>
+			<properties>
+				<env>product</env>
+			</properties>
+		</profile>
+	</profiles>
 
 </project>

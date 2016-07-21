@@ -1,10 +1,10 @@
 package com.nettyim.server.service;
 
-import org.springframework.stereotype.Component;
-
 import io.netty.channel.Channel;
 
-import com.nettyim.server.common.constrants.AttributeKeyCommonConstrants;
+import org.springframework.stereotype.Component;
+
+import com.nettyim.server.common.constrants.AttributeKeyConstrants;
 import com.nettyim.server.common.exception.NotAuthException;
 import com.nettyim.server.model.AuthTokenModel;
 
@@ -23,7 +23,7 @@ public class AuthEventService {
      * @return
      */
     public AuthTokenModel getAuthToken(Channel ch) {
-        return ch.attr(AttributeKeyCommonConstrants.KEY_CLIENT_ID).get();
+        return ch.attr(AttributeKeyConstrants.KEY_CLIENT_ID).get();
     }
 
     /**
@@ -32,7 +32,7 @@ public class AuthEventService {
      * @param token
      */
     public void setAuthToken(Channel ch, AuthTokenModel token) {
-        ch.attr(AttributeKeyCommonConstrants.KEY_CLIENT_ID).set(token);
+        ch.attr(AttributeKeyConstrants.KEY_CLIENT_ID).set(token);
     }
     
     /**
@@ -42,7 +42,7 @@ public class AuthEventService {
      */
     public void clearAuthToken(Channel ch) {
         if (getAuthToken(ch) != null) {
-            ch.attr(AttributeKeyCommonConstrants.KEY_CLIENT_ID).remove();
+            ch.attr(AttributeKeyConstrants.KEY_CLIENT_ID).remove();
         }
     }
 

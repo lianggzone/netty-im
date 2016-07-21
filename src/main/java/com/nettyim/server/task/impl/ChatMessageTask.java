@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.nettyim.server.common.constrants.ClientSession;
+import com.nettyim.server.common.exception.NotChannelException;
 import com.nettyim.server.common.utils.JsonUtils;
 import com.nettyim.server.model.ChatMessageModel;
 import com.nettyim.server.model.ProtocolModel;
@@ -36,8 +37,7 @@ public class ChatMessageTask implements ITask {
                 ctx.pipeline().close();
             }
         }else{
-            logger.info("task[char-message]channelHandlerContext not found");
+            throw new NotChannelException();
         }
-        
     }
 }

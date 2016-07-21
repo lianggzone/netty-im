@@ -6,9 +6,9 @@ package com.nettyim.server.common.exception;
  * <p>Create Time: 2016年7月20日           </p>
  * @author lianggz
  */
-public class NotAuthException extends NettyImException {
+public class NotChannelException extends NettyImException {
     
-    public NotAuthException() {
-        super("auth not found");
+    public NotChannelException() {
+        super("channelHandlerContext not found");
     }
 }

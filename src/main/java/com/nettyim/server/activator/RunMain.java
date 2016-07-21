@@ -13,7 +13,7 @@ import com.nettyim.server.server.TcpChatServer;
 
 /**
  * <p>Title: 程序入口  </p>
- * <p>Description: Function Description </p>
+ * <p>Description: RunMain </p>
  * <p>Create Time: 2016年7月20日           </p>
  * @author lianggz
  */
@@ -38,5 +38,4 @@ public class RunMain implements CommandLineRunner {
             logger.error("startup error!", e);
         }
     }
-
 }

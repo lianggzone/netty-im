@@ -25,8 +25,15 @@ public class TaskSchedule{
      */
     @Scheduled(cron="0/10 * * * * ?")
     public void execTask(){
-        this.taskServer.execTask(CommonConstants.QUEUE_TASK_NAME);      
+        this.taskServer.execTask(CommonConstants.QUEUE_TASK_CONTENT);      
     }
     
-    
+    /**
+     * 重做失败的任务【每15秒执行一次队列任务】
+     * @author lianggz
+     */
+    /*@Scheduled(cron="0/15 * * * * ?")
+    public void redoTask(){
+        this.taskServer.redoTask();      
+    }*/
 }

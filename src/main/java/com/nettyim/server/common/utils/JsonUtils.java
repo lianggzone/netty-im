@@ -7,8 +7,8 @@ import java.io.IOException;
 
 /**
  * <p>Title: JSON工具类  </p>
- * <p>Description: Function Description </p>
- * <p>Copyright: Copyright (c) 2016     </p>
+ * <p>Description: JsonUtils </p>
+ * <p>Create Time: 2016年7月20日           </p>
  * @author lianggz
  */
 public class JsonUtils {

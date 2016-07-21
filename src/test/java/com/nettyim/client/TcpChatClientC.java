@@ -7,6 +7,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 
 import com.nettyim.server.common.utils.JsonUtils;
 import com.nettyim.server.enums.EventEnum;
@@ -45,7 +46,8 @@ public class TcpChatClientC {
             bootstrap.handler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 protected void initChannel(SocketChannel ch) throws Exception {
-                    ch.pipeline().addLast(new TcpProtocolCodec());
+                    ch.pipeline().addLast("LengthFieldBasedFrameDecoder", new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 0, Integer.SIZE/8, -(Integer.SIZE/8), 0));
+                    ch.pipeline().addLast("TcpProtocolCodec", new TcpProtocolCodec());
                 }
             });
             // 发起异步连接操作
@@ -94,6 +96,6 @@ public class TcpChatClientC {
     }
 
     public static void main(String[] args) throws Exception {  
-        new TcpChatClientC("127.0.0.1", 9099).start();
+        new TcpChatClientC("127.0.0.1", 6099).start();
     }
 }
