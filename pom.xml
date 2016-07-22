@@ -129,6 +129,7 @@
                 </delimiters>
             </configuration>
         </plugin>
+    </plugins>
     </plugins>  
     <filters>
 		<filter>src/main/filters/filter-${env}.properties</filter>

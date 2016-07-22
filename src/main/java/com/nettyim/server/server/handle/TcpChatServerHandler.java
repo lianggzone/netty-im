@@ -45,12 +45,15 @@ public class TcpChatServerHandler extends SimpleChannelInboundHandler<ProtocolMo
         if(EventEnum.AUTH.getValue() == protocolModel.getOperation()){
             AuthTokenModel authTokenModel = JsonUtils.fromJson(protocolModel.getBody(), AuthTokenModel.class);
             String key = authTokenModel.getUserId() + "_" + authTokenModel.getOsType();
-            authEventService.setAuthToken(ctx.channel(), authTokenModel);
+                  authEventService.setAuthToken(ctx.channel(), authTokenModel);
             ClientSession.sessionMap.put(key, ctx);
         }
         // 写入消息队列
         msgListRedisDao.setMsg(CommonConstants.QUEUE_TASK_CONTENT, 
                 JSON.toJSONString(new ProtocolHandleModel(JsonUtils.toJson(protocolModel))));
+        
+        //ctx.pipeline().writeAndFlush(protocolModel);
+        //ctx.pipeline().close();
         
         //ctx.pipeline().writeAndFlush(protocolModel);
         //ctx.pipeline().close();
