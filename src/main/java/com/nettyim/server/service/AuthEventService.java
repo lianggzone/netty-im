@@ -5,14 +5,13 @@ import io.netty.channel.Channel;
 import org.springframework.stereotype.Component;
 
 import com.nettyim.server.common.constrants.AttributeKeyConstrants;
-import com.nettyim.server.common.exception.NotAuthException;
-import com.nettyim.server.model.AuthTokenModel;
+import com.nettyim.server.entity.AuthModel;
 
 /**
- * <p>Title: AuthEventService  </p>
- * <p>Description: AuthEventService </p>
- * <p>Create Time: 2016年7月20日           </p>
- * @author lianggz
+ * AuthEventService
+ * @author 粱桂钊
+ * @since 
+ * <p>更新时间: 2016年7月31日  v0.1</p><p>版本内容: 创建</p>
  */
 @Component
 public class AuthEventService {
@@ -22,8 +21,8 @@ public class AuthEventService {
      * @param ch
      * @return
      */
-    public AuthTokenModel getAuthToken(Channel ch) {
-        return ch.attr(AttributeKeyConstrants.KEY_CLIENT_ID).get();
+    public AuthModel getAuthToken(Channel ch) {
+        return ch.attr(AttributeKeyConstrants.KEY_SHELL_ID).get();
     }
 
     /**
@@ -31,8 +30,8 @@ public class AuthEventService {
      * @param ch
      * @param token
      */
-    public void setAuthToken(Channel ch, AuthTokenModel token) {
-        ch.attr(AttributeKeyConstrants.KEY_CLIENT_ID).set(token);
+    public void setAuthToken(Channel ch, AuthModel token) {
+        ch.attr(AttributeKeyConstrants.KEY_SHELL_ID).set(token);
     }
     
     /**
@@ -42,19 +41,7 @@ public class AuthEventService {
      */
     public void clearAuthToken(Channel ch) {
         if (getAuthToken(ch) != null) {
-            ch.attr(AttributeKeyConstrants.KEY_CLIENT_ID).remove();
+            ch.attr(AttributeKeyConstrants.KEY_SHELL_ID).remove();
         }
     }
-
-    /**
-     * 检查AuthTokenModel	    
-     * @param ch
-     * @throws NotAuthException
-     */
-    public void checkAuth(Channel ch) throws NotAuthException {
-        if (getAuthToken(ch) == null) {
-            throw new NotAuthException();
-        }
-    }
-
 }

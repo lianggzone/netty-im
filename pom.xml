@@ -16,7 +16,19 @@
  	<jdk.version>1.7</jdk.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
  </properties>
-
+ 
+ <developers>
+     <developer>
+         <id>lianggzone</id>
+         <name>梁桂钊</name>
+         <email>lianggzone@163.com</email>
+         <roles>
+             <role>Architect</role>
+             <role>Developer</role>
+         </roles>
+     </developer>
+ </developers>
+ 
  <dependencies>
  	<!-- netty -->
     <!-- <dependency>
@@ -86,19 +98,6 @@
         <artifactId>commons-lang3</artifactId>
         <version>3.3</version>
     </dependency>
-    
-    <!-- redis配置 -->
-	<dependency>
-		<groupId>org.springframework.data</groupId>
-		<artifactId>spring-data-redis</artifactId>
-		<version>1.5.1.RELEASE</version>
-	</dependency>
-	<dependency>  
-	       <groupId>redis.clients</groupId>  
-	       <artifactId>jedis</artifactId>  
-	       <version>2.7.3</version>  
-	   </dependency>
-  	
  </dependencies>
  
   <build>

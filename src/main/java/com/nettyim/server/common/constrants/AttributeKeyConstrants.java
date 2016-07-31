@@ -2,16 +2,16 @@ package com.nettyim.server.common.constrants;
 
 import io.netty.util.AttributeKey;
 
-import com.nettyim.server.model.AuthTokenModel;
+import com.nettyim.server.entity.AuthModel;
 
 /**
- * <p>Title: AttributeKey常量类  </p>
- * <p>Description: AttributeKeyConstrants </p>
- * <p>Create Time: 2016年7月20日           </p>
- * @author lianggz
+ * AttributeKey常量类 
+ * @author 粱桂钊
+ * @since 
+ * <p>更新时间: 2016年7月31日  v0.1</p><p>版本内容: 创建</p>
  */
 public class AttributeKeyConstrants {
 
-    // client_id
-    public static final AttributeKey<AuthTokenModel> KEY_CLIENT_ID = AttributeKey.valueOf("client_id");
+    // shell_id
+    public static final AttributeKey<AuthModel> KEY_SHELL_ID = AttributeKey.valueOf("shell_id");
 }

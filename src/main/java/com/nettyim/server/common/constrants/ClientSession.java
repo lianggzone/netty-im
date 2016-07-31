@@ -6,11 +6,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * <p>Title: ClientSession  </p>
- * <p>Description: ClientSession </p>
- * <p>Create Time: 2016年7月20日           </p>
- * @author lianggz
+ * ClientSession
+ * @author 粱桂钊
+ * @since 
+ * <p>更新时间: 2016年7月31日  v0.1</p><p>版本内容: 创建</p>
  */
 public class ClientSession {
+	
     public static Map<String, ChannelHandlerContext> sessionMap = new HashMap<String, ChannelHandlerContext>();
 }

@@ -1,11 +1,12 @@
 package com.nettyim.server.common.exception;
 
-/**
- * <p>Title: NotAuthException  </p>
- * <p>Description: NotAuthException </p>
- * <p>Create Time: 2016年7月20日           </p>
- * @author lianggz
+/** 
+ * NotChannelException
+ * @author 粱桂钊
+ * @since 
+ * <p>更新时间: 2016年7月31日  v0.1</p><p>版本内容: 创建</p>
  */
+@SuppressWarnings("serial")
 public class NotChannelException extends NettyImException {
     
     public NotChannelException() {
