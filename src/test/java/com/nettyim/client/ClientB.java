@@ -126,6 +126,6 @@ public class ClientB {
     }
 
     public static void main(String[] args) throws Exception {  
-        new ClientB("127.0.0.1", Constants.PORT).start();
+        new ClientB("127.0.0.1", Constants.TCP_PORT).start();
     }
 }

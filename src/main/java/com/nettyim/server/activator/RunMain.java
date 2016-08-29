@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 import com.nettyim.server.server.ChatServer;
+import com.nettyim.server.server.WebSocketChatServer;
 
 /**
  * 程序入口
@@ -24,6 +25,8 @@ public class RunMain implements CommandLineRunner {
 
     @Autowired
     private ChatServer chatServer;
+    @Autowired
+    private WebSocketChatServer webSocketChatServer;
     
     public static void main(String[] args) {
         SpringApplication.run(RunMain.class, args);
@@ -32,6 +35,7 @@ public class RunMain implements CommandLineRunner {
     public void run(String... strings) throws Exception {
         try {
         	chatServer.start();
+        	webSocketChatServer.start();
             Thread.currentThread().join();
         } catch (Exception e) {
             logger.error("startup error!", e);

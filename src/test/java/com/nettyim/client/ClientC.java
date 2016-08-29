@@ -108,6 +108,6 @@ public class ClientC {
     }
 
     public static void main(String[] args) throws Exception {  
-        new ClientC("127.0.0.1", Constants.PORT).start();
+        new ClientC("127.0.0.1", Constants.TCP_PORT).start();
     }
 }

@@ -2,7 +2,6 @@ package com.nettyim.server.server;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -15,53 +14,44 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.nettyim.server.common.constrants.Constants;
-import com.nettyim.server.server.initializer.ChatChannelInitializer;
+import com.nettyim.server.server.initializer.WebSocketChannelInitializer;
 
 /**
- * 消息聊天TCP服务端
+ * 消息聊天WEBSOCKET服务端
  * @author 粱桂钊
  * @since 
- * <p>更新时间: 2016年7月31日  v0.1</p><p>版本内容: 创建</p>
+ * <p>更新时间: 2016年8月29日  v0.1</p><p>版本内容: 创建</p>
  */
 @Component
-public class ChatServer {
+public class WebSocketChatServer{
 
-    private static final Logger logger = LoggerFactory.getLogger(ChatServer.class);
+    private Logger logger = LoggerFactory.getLogger(WebSocketChatServer.class);
 
     @Autowired
-    private ChatChannelInitializer chatChannelInitializer;
+    private WebSocketChannelInitializer webSocketChannelInitializer;
 
-    private EventLoopGroup bossGroup = new NioEventLoopGroup();
-    private EventLoopGroup workGroup = new NioEventLoopGroup();
+    private final EventLoopGroup bossGroup = new NioEventLoopGroup();
+    private final EventLoopGroup workGroup = new NioEventLoopGroup();
     private ChannelFuture channelFuture;
-    
+
     /**
      * 开启	     
      * @throws Exception
      */
     public void start() throws Exception {
         try {
-            logger.info("starting tcp server ... Port: " + Constants.TCP_PORT);
-            
-            // 创建ServerBootstrap对象，它是Netty用于启动NIO服务端的辅助启动类， 目的是降低服务端的开发复杂度
-            ServerBootstrap bootstrap = new ServerBootstrap();
+        	logger.info("starting tcp server ... Port: " + Constants.WEBSOCKET_PORT);
+        	
+        	// 创建ServerBootstrap对象，它是Netty用于启动NIO服务端的辅助启动类， 目的是降低服务端的开发复杂度
+        	ServerBootstrap bootstrap = new ServerBootstrap();
             bootstrap.group(bossGroup, workGroup);
             bootstrap.channel(NioServerSocketChannel.class);
-            
-            // 设置参数
-            // serverSocketChannel的设置，连接缓存池的大小
-            // bootstrap.option(ChannelOption.SO_BACKLOG, 100000);
-            // socketChannel的设置,维持连接的活跃，清楚死链接
-            bootstrap.option(ChannelOption.SO_KEEPALIVE, true);
-            // socketChannel的设置,关闭延迟发送
-            bootstrap.option(ChannelOption.TCP_NODELAY, true);
-            
             // 处理业务
             bootstrap.handler(new LoggingHandler(LogLevel.INFO));
             // 绑定I/O事件的处理类
-            bootstrap.childHandler(chatChannelInitializer);
+            bootstrap.childHandler(webSocketChannelInitializer);
             // 绑定端口，同步等待成功
-            bootstrap.bind(Constants.TCP_PORT).sync();
+            bootstrap.bind(Constants.WEBSOCKET_PORT).sync();
         } finally {
             Runtime.getRuntime().addShutdownHook(new Thread() {
                 @Override
@@ -85,7 +75,6 @@ public class ChatServer {
      * 关闭
      */
     public void shutdown() {
-        // 释放线程池资源
         if (channelFuture != null) {
             channelFuture.channel().close().syncUninterruptibly();
         }
